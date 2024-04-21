@@ -1,7 +1,7 @@
 <template>
   <div id="info-card">
     <div>
-      <h1><slot name="heading"></slot></h1>
+      <h1 class="text-3xl font-bold underline"><slot name="heading"></slot></h1>
     </div>
     <slot name="details"></slot>
   </div>
