@@ -5,10 +5,10 @@ import HelloWorld from './components/HelloWorld.vue';
 
 <template>
   <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/workouts">Workouts</RouterLink>
-      <RouterLink to="/stats">Stats</RouterLink>
+    <nav role="tablist" class="tabs tabs-lifted">
+      <RouterLink to="/" role="tab" class="tab">Home</RouterLink>
+      <RouterLink to="/workouts" role="tab" class="tab">Workouts</RouterLink>
+      <RouterLink to="/stats" role="tab" class="tab">Stats</RouterLink>
     </nav>
   </header>
 
