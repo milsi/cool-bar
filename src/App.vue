@@ -1,69 +1,49 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 <template>
   <header>
-    <nav role="tablist" class="tabs tabs-lifted">
-      <RouterLink to="/" role="tab" class="tab">Home</RouterLink>
-      <RouterLink to="/workouts" role="tab" class="tab">Workouts</RouterLink>
-      <RouterLink to="/stats" role="tab" class="tab">Stats</RouterLink>
-    </nav>
+    <div class="navbar bg-base-100">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </div>
+          <ul
+            tabindex="0"
+            class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+          >
+            <li><RouterLink to="/">Home</RouterLink></li>
+            <li><RouterLink to="/workouts">Workouts</RouterLink></li>
+            <li><RouterLink to="/stats">Stats</RouterLink></li>
+          </ul>
+        </div>
+      </div>
+      <div class="navbar-center">
+        <a class="btn btn-ghost text-xl" href="/">cool bar.</a>
+      </div>
+      <div class="navbar-end"></div>
+    </div>
   </header>
-
   <RouterView />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (width >= 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  nav {
-    text-align: left;
-
-    /* margin-left: -1rem; */
-    font-size: 1rem;
-
-    /* padding: 1rem 0; */
-    margin-top: 1rem;
-  }
+main {
+  margin: 0 auto;
 }
 </style>

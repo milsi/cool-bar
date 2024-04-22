@@ -5,19 +5,25 @@ import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
   userProfile: Object as () => User,
+  showEdit: Boolean,
 });
 
-const emit = defineEmits(['saveChanges']);
+const emit = defineEmits(['saveChanges', 'closeModal']);
 
 let userProfileWrite = ref(JSON.parse(JSON.stringify(props.userProfile)));
 
 const saveChanges = () => {
+  closeModal();
   emit('saveChanges', userProfileWrite.value);
+};
+
+const closeModal = () => {
+  emit('closeModal');
 };
 </script>
 
 <template>
-  <Modal @saveChanges="saveChanges">
+  <Modal @saveChanges="saveChanges" @closeModal="closeModal" v-if="props.showEdit">
     <template #heading>Edit user profile</template>
     <template #details>
       <form class="m-8 grid grid-cols-1 place-content-center gap-4">

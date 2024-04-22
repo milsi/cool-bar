@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import CardItem from '../CardItem.vue';
 import UserEditor from './UserEditorItem.vue';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
@@ -9,15 +9,31 @@ import type { User } from '@/types/User';
 const AppLocalStorageStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStorageStore);
 
+const closeModal = () => {
+  showEdit.value = false;
+};
+
 const saveChanges = (changedUserProfile: User) => {
-  console.log(changedUserProfile);
+  closeModal();
   appLocalStorage.value.userProfile = changedUserProfile;
   AppLocalStorageStore.updateUserProfile(changedUserProfile);
+};
+
+const showEdit = ref(false);
+
+const toggleEdit = () => {
+  showEdit.value = !showEdit.value;
 };
 </script>
 
 <template>
-  <CardItem>
+  <UserEditor
+    :userProfile="appLocalStorage.userProfile"
+    @saveChanges="saveChanges"
+    @closeModal="closeModal"
+    :showEdit="showEdit"
+  ></UserEditor>
+  <CardItem @click="toggleEdit">
     <template #heading> User information (tap to edit)</template>
     <template #details>
       <div class="flow-root">
@@ -45,10 +61,6 @@ const saveChanges = (changedUserProfile: User) => {
           </div>
         </dl>
       </div>
-      <UserEditor
-        :userProfile="appLocalStorage.userProfile"
-        @saveChanges="saveChanges"
-      ></UserEditor>
     </template>
   </CardItem>
 </template>
