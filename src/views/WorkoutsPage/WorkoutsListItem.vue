@@ -1,26 +1,28 @@
 <script setup lang="ts">
 import Workout from './WorkoutItem.vue';
+import AddWorkout from './AddWorkoutItem.vue';
 import { storeToRefs } from 'pinia';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
-import { ref } from 'vue';
+import { useAddWorkoutStore } from '@/stores/showAddWorkout';
+import { watch, ref } from 'vue';
 
 const AppLocalStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStore);
 const workouts = appLocalStorage.value.workouts;
 
-console.log(workouts);
+const ShowAddWorkoutStore = useAddWorkoutStore();
+const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
+const showAddWorkoutModal = ref(false);
 
-// Get today's date
-let today: string = new Date().toISOString().split('T')[0];
+watch(showAddWorkout, () => {
+  showAddWorkoutModal.value = !showAddWorkoutModal.value;
+});
 </script>
 
 <template>
+  <AddWorkout v-if="showAddWorkoutModal"></AddWorkout>
   <div class="grid grid-cols-1 gap-x-3 md:grid-cols-2">
-    <Workout
-      v-for="(exercise, day) in workouts"
-      :key="day"
-      :class="{ 'bg-base-300': day === today }"
-    >
+    <Workout v-for="(exercise, day) in workouts" :key="day">
       <template #date>{{ day }}</template>
       <template #movements>
         <div v-for="(workoutTypes, movement) in exercise" :key="movement">
@@ -53,8 +55,3 @@ let today: string = new Date().toISOString().split('T')[0];
     </Workout>
   </div>
 </template>
-<style scoped>
-.today-focus {
-  background-color: oklch(var(--p));
-}
-</style>

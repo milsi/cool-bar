@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import type { LocalStorage } from '@/types/LocalStorage';
 import type { User } from '@/types/User';
-import type { Routine, Exercise, WorkoutType, Workout } from '@/types/Routine';
+import type { WorkoutType, Workout } from '@/types/Routine';
 
 const STORE_NAME = 'cool-bar';
 const today = new Date();
@@ -13,12 +13,6 @@ const PLACEHOLDER_USER_INFO: User = {
   age: 30,
   sex: 'F',
   bodyWeight: 70,
-};
-
-const PLACEHOLDER_WORKOUT_SET_1: Workout = {
-  set: 1,
-  reps: 5,
-  weight: 20,
 };
 
 const PLACEHOLDER_WORKOUT_SET_2: Workout = {
