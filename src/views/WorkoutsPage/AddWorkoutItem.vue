@@ -10,25 +10,36 @@ interface Row {
 }
 
 const rowsWarmup = ref<Array<Row>>([{ set: 1, reps: null, weight: null }]);
-const rowsWorking = ref<Array<Row>>([{ set: 1, reps: null, weight: null }]);
+const rowsWorking = ref<Array<Row>>([
+  { set: rowsWarmup.value[0].set + 1, reps: null, weight: null },
+]);
 
 const addRow = (event: Event, type: string) => {
-  const rows = type === 'working' ? rowsWorking : rowsWarmup;
   event.preventDefault();
-  const setOrder = rows.value[rows.value.length - 1].set + 1;
-  rows.value.push({ set: setOrder, reps: null, weight: null });
+  let setOrder;
+  if (type === 'working') {
+    setOrder = rowsWarmup.value.length + rowsWorking.value.length + 1;
+    rowsWorking.value.push({ set: setOrder, reps: null, weight: null });
+  } else {
+    setOrder = rowsWarmup.value.length + 1;
+    rowsWarmup.value.push({ set: setOrder, reps: null, weight: null });
+  }
+  adjustSetNumbers();
 };
 
 const removeRow = (index: number, type: string) => {
   const rows = type === 'working' ? rowsWorking : rowsWarmup;
 
   rows.value.splice(index, 1);
-  adjustSetNumbers(rows);
+  adjustSetNumbers();
 };
 
-const adjustSetNumbers = (rows: typeof rowsWarmup | typeof rowsWorking) => {
-  for (let i = 0; i < rows.value.length; i++) {
-    rows.value[i].set = i + 1;
+const adjustSetNumbers = () => {
+  for (let i = 0; i < rowsWarmup.value.length; i++) {
+    rowsWarmup.value[i].set = i + 1;
+  }
+  for (let i = 0; i < rowsWorking.value.length; i++) {
+    rowsWorking.value[i].set = rowsWarmup.value.length + i + 1;
   }
 };
 </script>
@@ -47,13 +58,13 @@ const adjustSetNumbers = (rows: typeof rowsWarmup | typeof rowsWorking) => {
         <div
           v-for="(row, index) in rowsWarmup"
           :key="index"
-          class="col-span-3 grid grid-cols-6 place-content-center gap-1"
+          class="col-span-3 grid grid-cols-7 place-content-center gap-1"
         >
           <input
             type="text"
             v-model="row.set"
             placeholder="Set"
-            class="input input-bordered col-span-1 w-full max-w-xs"
+            class="input input-bordered col-span-2 w-full max-w-xs"
             readonly
           />
           <input
@@ -77,7 +88,7 @@ const adjustSetNumbers = (rows: typeof rowsWarmup | typeof rowsWorking) => {
           </button>
         </div>
         <button @click="(event) => addRow(event, 'warmup')" class="btn btn-primary col-span-3">
-          Add warmup row
+          Add warmup set
         </button>
         <h3 class="col-span-3">Working</h3>
         <div
@@ -113,7 +124,7 @@ const adjustSetNumbers = (rows: typeof rowsWarmup | typeof rowsWorking) => {
           </button>
         </div>
         <button @click="(event) => addRow(event, 'working')" class="btn btn-primary col-span-3">
-          Add working row
+          Add working set
         </button>
       </form>
     </template>
