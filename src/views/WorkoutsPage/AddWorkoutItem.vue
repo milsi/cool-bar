@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import Modal from '../../components/ModalItem.vue';
 import IconRemove from '@/assets/icons/IconRemove.vue';
 
+const date = ref<string>(new Date().toISOString().split('T')[0]);
+
 interface Row {
   set: number;
   reps: null | number;
@@ -49,6 +51,7 @@ const adjustSetNumbers = () => {
     <template #heading>Add a new workout</template>
     <template #details>
       <form class="m-8 grid grid-cols-3 place-content-center gap-4">
+        <input type="date" class="input input-bordered col-span-3 w-full max-w-xs" v-model="date" />
         <select class="select select-bordered col-span-3 w-full max-w-xs">
           <option disabled selected>Movement</option>
           <option>Han Solo</option>
