@@ -7,4 +7,7 @@ export default {
     extend: {},
   },
   plugins: [require('@tailwindcss/forms'), require('daisyui')],
+  daisyui: {
+    themes: ['bumblebee'],
+  },
 } satisfies Config;

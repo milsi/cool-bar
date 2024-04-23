@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Modal from '../ModalItem.vue';
-import type { User } from '@/types/User';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
+import Modal from '../../components/ModalItem.vue';
+import type { User } from '../../types/User';
 
 const props = defineProps({
   userProfile: Object as () => User,

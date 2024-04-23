@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { computed, ref } from 'vue';
-import CardItem from '../CardItem.vue';
+import { ref } from 'vue';
+import CardItem from '../../components/CardItem.vue';
 import UserEditor from './UserEditorItem.vue';
-import { useAppLocalStorageStore } from '@/stores/localStorage';
-import type { User } from '@/types/User';
+import { useAppLocalStorageStore } from '../../stores/localStorage';
+import type { User } from '../../types/User';
 
 const AppLocalStorageStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStorageStore);

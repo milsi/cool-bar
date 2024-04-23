@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CardItem from '../CardItem.vue';
+import CardItem from '../../components/CardItem.vue';
 </script>
 <template>
   <CardItem>
@@ -14,9 +14,6 @@ import CardItem from '../CardItem.vue';
             class="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
           >
             <p class="text-gray-700">Default</p>
-
-            <!-- <p class="text-gray-900">Gym+</p> -->
-
             <input
               type="radio"
               name="weight-profile"
@@ -27,16 +24,12 @@ import CardItem from '../CardItem.vue';
             />
           </label>
         </div>
-
         <div>
           <label
             for="gymplus"
             class="flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
           >
             <p class="text-gray-700">Gym+</p>
-
-            <!-- <p class="text-gray-900">£9.99</p> -->
-
             <input
               type="radio"
               name="weight-profile"
@@ -47,16 +40,6 @@ import CardItem from '../CardItem.vue';
           </label>
         </div>
       </fieldset>
-      <!-- <form>
-        <div>
-          <input type="radio" id="default" name="weight-profile" class="form-radio text-pink-500" />
-          <label for="default" class="inline-flex">Default</label>
-        </div>
-        <div>
-          <input type="radio" id="gymplus" name="weight-profile" class="form-radio" />
-          <label for="gymplus">Gym+</label>
-        </div>
-      </form> -->
     </template>
   </CardItem>
 </template>

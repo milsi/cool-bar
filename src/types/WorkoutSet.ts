@@ -5,4 +5,5 @@ export type WorkoutSet = {
   set: number;
   reps: number;
   weight: number;
+  type: string;
 };
