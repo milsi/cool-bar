@@ -34,9 +34,5 @@ const closeModal = () => {
 .inside {
   border-radius: 30px;
   background: linear-gradient(45deg, #e6e6e6, #fff);
-
-  /* box-shadow:
-    20px -20px 40px #d9d9d9,
-    -20px 20px 40px #fff; */
 }
 </style>

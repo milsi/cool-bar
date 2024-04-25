@@ -2,6 +2,11 @@
 import { ref } from 'vue';
 import Modal from '../../components/ModalItem.vue';
 import IconRemove from '@/assets/icons/IconRemove.vue';
+import { useMovementsStore } from '../../stores/movementsStorage';
+import { storeToRefs } from 'pinia';
+
+const MovementsStore = useMovementsStore();
+const { movements } = storeToRefs(MovementsStore);
 
 const date = ref<string>(new Date().toISOString().split('T')[0]);
 
@@ -54,8 +59,9 @@ const adjustSetNumbers = () => {
         <input type="date" class="input input-bordered col-span-3 w-full max-w-xs" v-model="date" />
         <select class="select select-bordered col-span-3 w-full max-w-xs">
           <option disabled selected>Movement</option>
-          <option>Han Solo</option>
-          <option>Greedo</option>
+          <option v-for="movement in movements" :key="movement.movement">
+            {{ movement.movement }}
+          </option>
         </select>
         <h3 class="col-span-3">Warmup</h3>
         <div
