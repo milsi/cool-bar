@@ -1,14 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watchEffect, watch } from 'vue';
 import Modal from '../../components/ModalItem.vue';
 import IconRemove from '@/assets/icons/IconRemove.vue';
 import { useMovementsStore } from '@/stores/movementsStorage';
 import { storeToRefs } from 'pinia';
+import type { Routine, WorkoutType, Exercise } from '../../types/Routine';
+import { useAppLocalStorageStore } from '@/stores/localStorage';
+import { useAddWorkoutStore } from '@/stores/showModals';
 
 const MovementsStore = useMovementsStore();
 const { movements } = storeToRefs(MovementsStore);
+const selectedMovement = ref<string>('Movement');
+
+const AppLocalStorageStore = useAppLocalStorageStore();
+
+const ShowAddWorkoutStore = useAddWorkoutStore();
+const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
 
 const date = ref<string>(new Date().toISOString().split('T')[0]);
+
+const deactivateSave = ref<boolean>(false);
 
 interface Row {
   set: number;
@@ -49,15 +60,92 @@ const adjustSetNumbers = () => {
     rowsWorking.value[i].set = rowsWarmup.value.length + i + 1;
   }
 };
+
+const routine = ref<Routine>({});
+
+const saveChanges = () => {
+  const exercise: Exercise = {};
+  const workoutType: WorkoutType = {
+    Warmup: rowsWarmup.value.map((row) => ({
+      set: row.set,
+      reps: row.reps!,
+      weight: row.weight!,
+    })),
+    Working: rowsWorking.value.map((row) => ({
+      set: row.set,
+      reps: row.reps!,
+      weight: row.weight!,
+    })),
+  };
+
+  exercise[selectedMovement.value] = workoutType;
+  routine.value[date.value] = exercise;
+
+  AppLocalStorageStore.addRoutine(date.value, selectedMovement.value, workoutType);
+};
+
+const closeModal = () => {
+  showAddWorkout.value = false;
+};
+
+let errorSelect = true;
+let errorWarmup = true;
+let errorWorking = true;
+
+const errorActive = () => {
+  if (errorSelect || errorWarmup || errorWorking) {
+    deactivateSave.value = true;
+  } else {
+    deactivateSave.value = false;
+  }
+};
+
+watch(
+  () => selectedMovement.value,
+  (newValue: string) => {
+    if (newValue === 'Movement') {
+      errorSelect = true;
+    } else {
+      errorSelect = false;
+    }
+    errorActive();
+  },
+);
+
+watchEffect(() => {
+  rowsWarmup.value.forEach((row) => {
+    if (row.reps === null || row.reps === 0 || row.weight === null) {
+      errorWarmup = true;
+    } else {
+      errorWarmup = false;
+    }
+    errorActive();
+  });
+});
+
+watchEffect(() => {
+  rowsWorking.value.forEach((row) => {
+    if (row.reps === null || row.reps === 0 || row.weight === null) {
+      errorWorking = true;
+    } else {
+      errorWorking = false;
+    }
+    errorActive();
+  });
+});
 </script>
 
 <template>
-  <Modal>
+  <Modal :deactivateSave="deactivateSave" @saveChanges="saveChanges" @closeModal="closeModal">
     <template #heading>Add a new workout</template>
     <template #details>
       <form class="m-8 grid grid-cols-3 place-content-center gap-4">
         <input type="date" class="input input-bordered col-span-3 w-full" v-model="date" />
-        <select class="select select-bordered col-span-3 w-full">
+        <select
+          class="select select-bordered col-span-3 w-full"
+          v-model="selectedMovement"
+          :class="{ 'select-error': selectedMovement === 'Movement' }"
+        >
           <option disabled selected>Movement</option>
           <option v-for="movement in movements" :key="movement.movement">
             {{ movement.movement }}
@@ -70,23 +158,27 @@ const adjustSetNumbers = () => {
           class="col-span-3 grid grid-cols-7 place-content-center gap-1"
         >
           <input
-            type="text"
+            type="number"
             v-model="row.set"
             placeholder="Set"
             class="input input-bordered col-span-2 w-full"
             readonly
           />
           <input
-            type="text"
+            type="number"
+            min="1"
             v-model="row.reps"
             placeholder="Reps"
             class="input input-bordered col-span-2 w-full"
+            :class="{ 'input-error': row.reps === null || row.reps === 0 }"
           />
           <input
-            type="text"
+            type="number"
+            min="0"
             v-model="row.weight"
             placeholder="Weight"
             class="input input-bordered col-span-2 w-full max-w-xs"
+            :class="{ 'input-error': row.weight === null }"
           />
           <button
             v-if="rowsWarmup.length > 1"
@@ -103,26 +195,31 @@ const adjustSetNumbers = () => {
         <div
           v-for="(row, index) in rowsWorking"
           :key="index"
-          class="col-span-3 grid grid-cols-6 place-content-center gap-1"
+          class="col-span-3 grid grid-cols-7 place-content-center gap-1"
         >
           <input
-            type="text"
+            type="number"
+            min="1"
             v-model="row.set"
             placeholder="Set"
-            class="input input-bordered col-span-1 w-full max-w-xs"
+            class="input input-bordered col-span-2 w-full max-w-xs"
             readonly
           />
           <input
-            type="text"
+            type="number"
+            min="1"
             v-model="row.reps"
             placeholder="Reps"
             class="input input-bordered col-span-2 w-full max-w-xs"
+            :class="{ 'input-error': row.reps === null || row.reps === 0 }"
           />
           <input
-            type="text"
+            type="number"
+            min="0"
             v-model="row.weight"
             placeholder="Weight"
             class="input input-bordered col-span-2 w-full max-w-xs"
+            :class="{ 'input-error': row.weight === null }"
           />
           <button
             v-if="rowsWorking.length > 1"

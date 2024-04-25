@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import type { LocalStorage } from '@/types/LocalStorage';
 import type { User } from '@/types/User';
-import type { WorkoutType, Workout } from '@/types/Routine';
+import type { WorkoutType, Workout, Exercise } from '@/types/Routine';
 
 const STORE_NAME = 'cool-bar';
 const today = new Date();
@@ -74,6 +74,29 @@ export const useAppLocalStorageStore = defineStore(STORE_NAME, {
     },
     updateUserProfile(newUserProfile: User) {
       this.appLocalStorage.userProfile = newUserProfile;
+      localStorage.setItem(STORE_NAME, JSON.stringify(this.appLocalStorage));
+    },
+    addRoutine(date: string, selectedMovement: string, workoutType: WorkoutType) {
+      const exercise: Exercise = {};
+
+      exercise[selectedMovement] = workoutType;
+
+      if (this.appLocalStorage.workouts[date]) {
+        if (this.appLocalStorage.workouts[date][selectedMovement]) {
+          this.appLocalStorage.workouts[date] = {
+            ...this.appLocalStorage.workouts[date][selectedMovement],
+            ...exercise[selectedMovement],
+          };
+        } else {
+          this.appLocalStorage.workouts[date] = {
+            ...this.appLocalStorage.workouts[date],
+            ...exercise,
+          };
+        }
+      } else {
+        this.appLocalStorage.workouts[date] = exercise;
+      }
+
       localStorage.setItem(STORE_NAME, JSON.stringify(this.appLocalStorage));
     },
   },

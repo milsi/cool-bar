@@ -36,7 +36,7 @@ watch(userProfileWrite.value, (newVal) => {
   }
 });
 
-const deactivateSave = ref(false);
+const deactivateSave = ref<boolean>(false);
 </script>
 
 <template>
