@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Modal from '../../components/ModalItem.vue';
 import IconRemove from '@/assets/icons/IconRemove.vue';
-import { useMovementsStore } from '../../stores/movementsStorage';
+import { useMovementsStore } from '@/stores/movementsStorage';
 import { storeToRefs } from 'pinia';
 
 const MovementsStore = useMovementsStore();
@@ -56,8 +56,8 @@ const adjustSetNumbers = () => {
     <template #heading>Add a new workout</template>
     <template #details>
       <form class="m-8 grid grid-cols-3 place-content-center gap-4">
-        <input type="date" class="input input-bordered col-span-3 w-full max-w-xs" v-model="date" />
-        <select class="select select-bordered col-span-3 w-full max-w-xs">
+        <input type="date" class="input input-bordered col-span-3 w-full" v-model="date" />
+        <select class="select select-bordered col-span-3 w-full">
           <option disabled selected>Movement</option>
           <option v-for="movement in movements" :key="movement.movement">
             {{ movement.movement }}
@@ -73,14 +73,14 @@ const adjustSetNumbers = () => {
             type="text"
             v-model="row.set"
             placeholder="Set"
-            class="input input-bordered col-span-2 w-full max-w-xs"
+            class="input input-bordered col-span-2 w-full"
             readonly
           />
           <input
             type="text"
             v-model="row.reps"
             placeholder="Reps"
-            class="input input-bordered col-span-2 w-full max-w-xs"
+            class="input input-bordered col-span-2 w-full"
           />
           <input
             type="text"

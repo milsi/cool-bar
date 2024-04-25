@@ -2,7 +2,7 @@
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 import { computed } from 'vue';
 import IconAdd from '@/assets/icons/IconAdd.vue';
-import { useAddWorkoutStore } from '@/stores/showAddWorkout';
+import { useAddWorkoutStore } from '@/stores/showModals';
 
 const route = useRoute();
 const isWorkoutPage = computed(() => route.path === '/workouts');
@@ -63,3 +63,4 @@ main {
   margin: 0 auto;
 }
 </style>
+@/stores/showModals

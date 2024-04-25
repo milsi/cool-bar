@@ -3,7 +3,7 @@ import Workout from './WorkoutItem.vue';
 import AddWorkout from './AddWorkoutItem.vue';
 import { storeToRefs } from 'pinia';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
-import { useAddWorkoutStore } from '@/stores/showAddWorkout';
+import { useAddWorkoutStore } from '@/stores/showModals';
 import { watch, ref } from 'vue';
 
 const AppLocalStore = useAppLocalStorageStore();
@@ -55,3 +55,4 @@ watch(showAddWorkout, () => {
     </Workout>
   </div>
 </template>
+@/stores/showModals
