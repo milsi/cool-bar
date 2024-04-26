@@ -28,7 +28,7 @@ const updateLocalStorage = (newLocalStorage: LocalStorage) => {
 
 export const useAppLocalStorageStore = defineStore(STORE_NAME, {
   state: () => ({
-    appLocalStorage: getAppLocalStorage(),
+    appLocalStorage: <LocalStorage>getAppLocalStorage(),
   }),
   getters: {
     userInfo(state) {
@@ -47,6 +47,9 @@ export const useAppLocalStorageStore = defineStore(STORE_NAME, {
       this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },
     updateRoutine(date: string, movement: string, newContent: WorkoutType) {
+      if (!this.appLocalStorage.workouts[date]) {
+        this.appLocalStorage.workouts[date] = {};
+      }
       this.appLocalStorage.workouts[date][movement] = newContent;
       this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },

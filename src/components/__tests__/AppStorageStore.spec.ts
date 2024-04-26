@@ -1,8 +1,16 @@
+import { createPinia } from 'pinia';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { expect, test } from 'vitest';
+import type { WorkoutType } from '@/types/Routine';
+
+function setup() {
+  const pinia = createPinia();
+  return { pinia };
+}
 
 test('updates user profile correctly', async () => {
-  const store = useAppLocalStorageStore();
+  const { pinia } = setup();
+  const store = useAppLocalStorageStore(pinia);
   const newUserProfile = {
     name: 'John',
     age: 35,
@@ -16,10 +24,11 @@ test('updates user profile correctly', async () => {
 });
 
 test('updates routine correctly', async () => {
-  const store = useAppLocalStorageStore();
-  const date = '2024-04-26';
-  const movement = 'Squat';
-  const newContent = {
+  const { pinia } = setup();
+  const store = useAppLocalStorageStore(pinia);
+  const date: string = '2024-04-26';
+  const movement: string = 'Squat';
+  const newContent: WorkoutType = {
     Warmup: [
       {
         set: 1,
@@ -47,7 +56,8 @@ test('updates routine correctly', async () => {
 });
 
 test('deletes movement correctly', async () => {
-  const store = useAppLocalStorageStore();
+  const { pinia } = setup();
+  const store = useAppLocalStorageStore(pinia);
   const date = '2024-04-26';
   const movement = 'Bench Press';
 
@@ -57,7 +67,8 @@ test('deletes movement correctly', async () => {
 });
 
 test('adds routine correctly', async () => {
-  const store = useAppLocalStorageStore();
+  const { pinia } = setup();
+  const store = useAppLocalStorageStore(pinia);
   const date = '2024-04-27';
   const selectedMovement = 'Deadlift';
   const workoutType = {

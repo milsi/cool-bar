@@ -29,7 +29,8 @@ watch(showEditUserProfile, (newValue) => {
 <template>
   <UserEditor v-if="showEditUserProfileModal" @profile-updated="updateProfile"></UserEditor>
   <CardItem @click="ShowEditUserProfileStore.toggleShowEditUserProfile">
-    <template #heading> All about you</template>
+    <template #heading>All about you</template>
+    <template #instructions>Tap to edit</template>
     <template #details>
       <div class="flow-root">
         <dl class="-my-3 divide-y divide-gray-100 text-sm">

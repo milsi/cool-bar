@@ -25,6 +25,7 @@ const selectedDate = ref<string | undefined>(props.date);
   <div>
     <CardItem @click="toggleShowEditWorkout" aria-label="workoutItem">
       <template #heading>{{ selectedDate }}</template>
+      <template #instructions>Tap to edit per movement</template>
       <template #details>
         <div v-for="(workoutTypes, movement) in props.dayRoutine" :key="movement">
           <h2 class="text-lg">{{ movement }}</h2>
