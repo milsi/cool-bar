@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, ref, watch, watchEffect } from 'vue';
-import type { Exercise, Routine, Row, WorkoutType } from '../../types/Routine';
+import type { Exercise, Routine, Row, WorkoutType } from '@/types/Routine';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { useShowEditWorkoutStore, useAddWorkoutStore } from '@/stores/showModals';
 
 import { storeToRefs } from 'pinia';
-import Modal from '../../components/ModalItem.vue';
+import Modal from '@/components/ModalItem.vue';
 import IconRemove from '@/assets/icons/IconRemove.vue';
 
 interface Props {

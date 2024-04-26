@@ -6,12 +6,15 @@ import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { useAddWorkoutStore, useShowEditWorkoutStore } from '@/stores/showModals';
 import { watch, ref } from 'vue';
 import EditWorkout from './EditWorkoutItem.vue';
+import type { Exercise, Routine } from '@/types/Routine';
 
 const AppLocalStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStore);
-const workouts = appLocalStorage.value.workouts;
+const workouts: Routine = appLocalStorage.value.workouts;
 
-const sortedWorkouts = ref(Object.entries(workouts).sort((a, b) => b[0].localeCompare(a[0])));
+const sortedWorkouts = ref<[string, Exercise][]>(
+  Object.entries(workouts).sort((a, b) => b[0].localeCompare(a[0])),
+);
 
 const ShowAddWorkoutStore = useAddWorkoutStore();
 const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
@@ -39,7 +42,7 @@ watch(
 
 watch(
   () => appLocalStorage.value.workouts,
-  (newWorkouts) => {
+  (newWorkouts: Routine) => {
     sortedWorkouts.value = Object.entries(newWorkouts).sort((a, b) => b[0].localeCompare(a[0]));
   },
   { deep: true },

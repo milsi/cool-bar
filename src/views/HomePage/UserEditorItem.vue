@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import Modal from '../../components/ModalItem.vue';
+import Modal from '@/components/ModalItem.vue';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { useShowEditUserProfileStore } from '@/stores/showModals';
 

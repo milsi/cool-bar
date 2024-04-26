@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import ModifyWorkoutModalDetails from './ModifyWorkoutModalDetails.vue';
 import { useMovementsStore } from '@/stores/movementsStorage';
 import { storeToRefs } from 'pinia';
-import type { Row } from '../../types/Routine';
+import type { Row } from '@/types/Routine';
 
 const MovementsStore = useMovementsStore();
 const { movements } = storeToRefs(MovementsStore);

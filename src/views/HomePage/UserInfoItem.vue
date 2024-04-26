@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
-import CardItem from '../../components/CardItem.vue';
+import CardItem from '@/components/CardItem.vue';
 import UserEditor from './UserEditorItem.vue';
 import { useShowEditUserProfileStore } from '@/stores/showModals';
 import { useAppLocalStorageStore } from '@/stores/localStorage';

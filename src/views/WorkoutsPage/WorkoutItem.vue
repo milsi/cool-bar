@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CardItem from '../../components/CardItem.vue';
+import CardItem from '@/components/CardItem.vue';
 import { useShowEditWorkoutStore, useSelectedDateStore } from '@/stores/showModals';
-import type { WorkoutType } from '../../types/Routine';
+import type { Exercise } from '@/types/Routine';
 
 interface Props {
-  dayRoutine: WorkoutType;
+  dayRoutine: Exercise;
   date: string;
 }
 const props = defineProps<Props>();

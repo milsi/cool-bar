@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import type { Routine, WorkoutType } from '../../types/Routine';
+import type { Routine, WorkoutType } from '@/types/Routine';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { useSelectedDateStore } from '@/stores/showModals';
 import ModifyWorkoutModalDetails from './ModifyWorkoutModalDetails.vue';
