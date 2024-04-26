@@ -17,7 +17,7 @@ const emit = defineEmits(['profile-updated']);
 const userProfileWrite = ref(JSON.parse(JSON.stringify(userProfile)));
 
 const saveChanges = () => {
-  userProfile.value = userProfileWrite.value;
+  appLocalStorage.value.userProfile = userProfileWrite.value;
   AppLocalStorageStore.updateUserProfile(userProfileWrite.value);
   emit('profile-updated', userProfileWrite.value);
 };

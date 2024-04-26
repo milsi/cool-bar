@@ -23,6 +23,7 @@ const rowsWorking = ref<Array<Row>>([
     :dateModel="date"
     :isReadOnly="false"
     :movements="movementsArray"
+    :selectedMovement="''"
     :warmupRows="rowsWarmup"
     :workingRows="rowsWorking"
   ></ModifyWorkoutModalDetails>
