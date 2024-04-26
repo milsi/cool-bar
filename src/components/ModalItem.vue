@@ -20,7 +20,7 @@ const deleteMovement = () => {
 };
 </script>
 <template>
-  <div id="my_modal_1" class="modal modal-open">
+  <div class="modal modal-open">
     <div class="inside modal-box">
       <form method="dialog">
         <button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2" @click="closeModal">
@@ -37,7 +37,7 @@ const deleteMovement = () => {
           </button>
           <button
             :disabled="deactivateSave"
-            class="btn btn-accent"
+            class="btn btn-secondary"
             :class="{ 'btn-disabled': deactivateSave }"
             @click.prevent="saveChanges"
           >

@@ -1,52 +1,19 @@
 import { defineStore } from 'pinia';
 import type { LocalStorage } from '@/types/LocalStorage';
 import type { User } from '@/types/User';
-import type { WorkoutType, Row, Exercise } from '@/types/Routine';
+import type { WorkoutType, Exercise } from '@/types/Routine';
 
 const STORE_NAME = 'cool-bar';
-const today = new Date();
-const todayISO = new Date().toISOString().slice(0, 10);
-today.setDate(today.getDate() - 1);
-const yesterdayISO = today.toISOString().slice(0, 10);
 const PLACEHOLDER_USER_INFO: User = {
-  name: 'Jane',
-  age: 30,
-  sex: 'F',
-  bodyWeight: 70,
-};
-
-const PLACEHOLDER_WORKOUT_SET_2: Row = {
-  set: 3,
-  reps: 5,
-  weight: 22.5,
-};
-
-const PLACEHOLDER_WORKOUT: WorkoutType = {
-  Warmup: [
-    {
-      set: 1,
-      reps: 5,
-      weight: 20,
-    },
-    {
-      set: 2,
-      reps: 5,
-      weight: 20,
-    },
-  ],
-  Working: [PLACEHOLDER_WORKOUT_SET_2],
+  name: '--',
+  age: Math.floor(Math.random() * (99 - 16 + 1)) + 16,
+  sex: 'NB',
+  bodyWeight: Math.floor(Math.random() * (200 - 40 + 1)) + 40,
 };
 
 const EMPTY_LOCAL_STORAGE: LocalStorage = {
   userProfile: PLACEHOLDER_USER_INFO,
-  workouts: {
-    [todayISO]: {
-      'Bench Press': PLACEHOLDER_WORKOUT,
-    },
-    [yesterdayISO]: {
-      'Bench Press': PLACEHOLDER_WORKOUT,
-    },
-  },
+  workouts: {},
 };
 
 const getAppLocalStorage = () => {

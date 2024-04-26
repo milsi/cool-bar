@@ -7,11 +7,12 @@ import { useAddWorkoutStore, useShowEditWorkoutStore } from '@/stores/showModals
 import { watch, ref } from 'vue';
 import EditWorkout from './EditWorkoutItem.vue';
 import type { Exercise, Routine } from '@/types/Routine';
+import NoWorkouts from './NoWorkoutsItem.vue';
 
 const AppLocalStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStore);
 const workouts: Routine = appLocalStorage.value.workouts;
-
+console.log();
 const sortedWorkouts = ref<[string, Exercise][]>(
   Object.entries(workouts).sort((a, b) => b[0].localeCompare(a[0])),
 );
@@ -20,10 +21,16 @@ const ShowAddWorkoutStore = useAddWorkoutStore();
 const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
 const showAddWorkoutModal = ref(false);
 
+const toggleShowAddNew = () => {
+  showAddWorkout.value = true;
+};
+
 watch(
   showAddWorkout,
   () => {
+    console.log('showAddWorkoutModal.value', showAddWorkoutModal.value);
     showAddWorkoutModal.value = !showAddWorkoutModal.value;
+    console.log('showAddWorkoutModal.value', showAddWorkoutModal.value);
   },
   { deep: true },
 );
@@ -51,7 +58,7 @@ watch(
 
 <template>
   <div
-    v-if="workouts"
+    v-if="Object.keys(workouts).length > 0"
     class="grid-auto-rows: auto; grid grid-cols-1 gap-x-3 gap-y-3 md:grid-cols-2"
   >
     <Workout
@@ -61,7 +68,8 @@ watch(
       :date="routine[0].toString()"
     >
     </Workout>
-    <AddWorkout v-if="showAddWorkoutModal"></AddWorkout>
     <EditWorkout v-if="showEditWorkoutModal"></EditWorkout>
   </div>
+  <NoWorkouts v-else @toggleShowAddNew="toggleShowAddNew"></NoWorkouts>
+  <AddWorkout v-if="showAddWorkoutModal"></AddWorkout>
 </template>

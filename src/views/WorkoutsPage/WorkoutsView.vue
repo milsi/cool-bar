@@ -2,5 +2,7 @@
 import WorkoutsList from './WorkoutsListItem.vue';
 </script>
 <template>
-  <WorkoutsList />
+  <main>
+    <WorkoutsList />
+  </main>
 </template>
