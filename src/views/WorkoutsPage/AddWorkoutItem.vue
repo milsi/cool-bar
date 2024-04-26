@@ -132,11 +132,17 @@ watchEffect(() => {
     <template #heading>Add a new workout</template>
     <template #details>
       <form class="m-8 grid grid-cols-3 place-content-center gap-4">
-        <input type="date" class="input input-bordered col-span-3 w-full" v-model="date" />
+        <input
+          type="date"
+          class="input input-bordered col-span-3 w-full"
+          v-model="date"
+          aria-label="date"
+        />
         <select
           class="select select-bordered col-span-3 w-full"
           v-model="selectedMovement"
           :class="{ 'select-error': selectedMovement === 'Movement' }"
+          aria-label="movement"
         >
           <option disabled selected>Movement</option>
           <option v-for="movement in movements" :key="movement.movement">

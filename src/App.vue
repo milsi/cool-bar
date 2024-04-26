@@ -15,7 +15,7 @@ const addWorkoutStore = useAddWorkoutStore();
     <div class="navbar bg-base-100">
       <div class="navbar-start">
         <div class="dropdown">
-          <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
+          <div aria-label="menu" tabindex="0" role="button" class="btn btn-circle btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -42,13 +42,14 @@ const addWorkoutStore = useAddWorkoutStore();
         </div>
       </div>
       <div class="navbar-center">
-        <a class="btn btn-ghost text-xl" href="/">cool bar.</a>
+        <a class="btn btn-ghost text-xl" href="/" label="appName">cool bar.</a>
       </div>
       <div class="navbar-end">
         <button
           @click="addWorkoutStore.toggleShowAddWorkout"
           class="btn btn-circle btn-primary"
           v-if="isWorkoutPage"
+          aria-label="addWorkout"
         >
           <IconAdd />
         </button>
