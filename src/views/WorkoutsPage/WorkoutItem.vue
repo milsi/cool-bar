@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import CardItem from '../../components/CardItem.vue';
 import { useShowEditWorkoutStore, useSelectedDateStore } from '@/stores/showModals';
 import type { WorkoutType } from '../../types/Routine';

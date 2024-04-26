@@ -32,12 +32,13 @@ const deleteMovement = () => {
       <div class="modal-action">
         <form method="dialog" class="flex space-x-4">
           <button class="btn" @click.prevent="closeModal">Cancel</button>
-          <button v-if="props.showDelete" class="btn btn-error" @click.prevent="deleteMovement">
+          <button v-if="showDelete" class="btn btn-error" @click.prevent="deleteMovement">
             Delete movement
           </button>
           <button
+            :disabled="deactivateSave"
             class="btn btn-accent"
-            :class="{ 'btn-disabled': props.deactivateSave }"
+            :class="{ 'btn-disabled': deactivateSave }"
             @click.prevent="saveChanges"
           >
             Save
