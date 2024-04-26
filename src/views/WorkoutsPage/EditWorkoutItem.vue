@@ -114,7 +114,12 @@ const deactivateSave = computed(() => errorSelect.value || errorWarmup.value || 
 </script>
 
 <template>
-  <Modal :deactivateSave="deactivateSave" @saveChanges="saveChanges" @closeModal="closeModal">
+  <Modal
+    :deactivateSave="deactivateSave"
+    @saveChanges="saveChanges"
+    @closeModal="closeModal"
+    :showDelete="true"
+  >
     <template #heading>Add a new workout</template>
     <template #details>
       <form class="m-8 grid grid-cols-3 place-content-center gap-4">

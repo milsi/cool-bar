@@ -40,7 +40,12 @@ const deactivateSave = ref<boolean>(false);
 </script>
 
 <template>
-  <Modal @saveChanges="saveChanges" @closeModal="closeModal" :deactivateSave="deactivateSave">
+  <Modal
+    @saveChanges="saveChanges"
+    @closeModal="closeModal"
+    :deactivateSave="deactivateSave"
+    :showDelete="false"
+  >
     <template #heading>Edit user profile</template>
     <template #details>
       <form class="m-8 grid grid-cols-1 place-content-center gap-4">

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
   deactivateSave: Boolean,
+  showDelete: Boolean,
 });
 
 const emit = defineEmits(['saveChanges', 'closeModal']);
@@ -27,6 +28,9 @@ const closeModal = () => {
       <div class="modal-action">
         <form method="dialog" class="flex space-x-4">
           <button class="btn" @click.prevent="closeModal">Cancel</button>
+          <button v-if="showDelete" class="btn btn-error" @click.prevent="closeModal">
+            Delete movement
+          </button>
           <button
             class="btn btn-accent"
             :class="{ 'btn-disabled': props.deactivateSave }"

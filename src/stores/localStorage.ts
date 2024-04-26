@@ -83,6 +83,10 @@ export const useAppLocalStorageStore = defineStore(STORE_NAME, {
       this.appLocalStorage.workouts[date][movement] = newContent;
       this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },
+    deleteRoutine(date: string | undefined, movement: string) {
+      delete this.appLocalStorage.workouts[date][movement];
+      this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
+    },
     addRoutine(date: string, selectedMovement: string, workoutType: WorkoutType) {
       const exercise: Exercise = {};
       exercise[selectedMovement] = workoutType;
