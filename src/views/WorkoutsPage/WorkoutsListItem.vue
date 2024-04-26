@@ -12,7 +12,7 @@ const { appLocalStorage } = storeToRefs(AppLocalStore);
 const workouts = appLocalStorage.value.workouts;
 
 const sortedWorkouts = ref(Object.entries(workouts).sort((a, b) => b[0].localeCompare(a[0])));
-console.log(sortedWorkouts.value);
+
 const ShowAddWorkoutStore = useAddWorkoutStore();
 const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
 const showAddWorkoutModal = ref(false);
@@ -28,12 +28,22 @@ const showEditWorkoutModal = ref(false);
 watch(showEditWorkout, (newValue) => {
   showEditWorkoutModal.value = newValue;
 });
-console.log(workouts);
+
+watch(
+  () => appLocalStorage.value.workouts,
+  (newWorkouts) => {
+    sortedWorkouts.value = Object.entries(newWorkouts).sort((a, b) => b[0].localeCompare(a[0]));
+  },
+  { deep: true },
+);
 </script>
 
 <template>
   <AddWorkout v-if="showAddWorkoutModal"></AddWorkout>
-  <div class="grid-auto-rows: auto; grid grid-cols-1 gap-x-3 gap-y-3 md:grid-cols-2">
+  <div
+    v-if="workouts"
+    class="grid-auto-rows: auto; grid grid-cols-1 gap-x-3 gap-y-3 md:grid-cols-2"
+  >
     <Workout
       v-for="routine in sortedWorkouts"
       :key="routine[0]"

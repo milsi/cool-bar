@@ -4,7 +4,7 @@ const props = defineProps({
   showDelete: Boolean,
 });
 
-const emit = defineEmits(['saveChanges', 'closeModal']);
+const emit = defineEmits(['saveChanges', 'closeModal', 'deleteMovement']);
 
 const saveChanges = () => {
   closeModal();
@@ -13,6 +13,10 @@ const saveChanges = () => {
 
 const closeModal = () => {
   emit('closeModal');
+};
+
+const deleteMovement = () => {
+  emit('deleteMovement');
 };
 </script>
 <template>
@@ -28,7 +32,7 @@ const closeModal = () => {
       <div class="modal-action">
         <form method="dialog" class="flex space-x-4">
           <button class="btn" @click.prevent="closeModal">Cancel</button>
-          <button v-if="showDelete" class="btn btn-error" @click.prevent="closeModal">
+          <button v-if="props.showDelete" class="btn btn-error" @click.prevent="deleteMovement">
             Delete movement
           </button>
           <button

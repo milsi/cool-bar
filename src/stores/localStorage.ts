@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import type { LocalStorage } from '@/types/LocalStorage';
 import type { User } from '@/types/User';
-import type { WorkoutType, Workout, Exercise } from '@/types/Routine';
+import type { WorkoutType, Row, Exercise } from '@/types/Routine';
 
 const STORE_NAME = 'cool-bar';
 const today = new Date();
@@ -15,7 +15,7 @@ const PLACEHOLDER_USER_INFO: User = {
   bodyWeight: 70,
 };
 
-const PLACEHOLDER_WORKOUT_SET_2: Workout = {
+const PLACEHOLDER_WORKOUT_SET_2: Row = {
   set: 3,
   reps: 5,
   weight: 22.5,
@@ -79,21 +79,25 @@ export const useAppLocalStorageStore = defineStore(STORE_NAME, {
       this.appLocalStorage.userProfile = newUserProfile;
       this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },
-    updateRoutine(date: string | undefined, movement: string, newContent: WorkoutType) {
+    updateRoutine(date: string, movement: string, newContent: WorkoutType) {
       this.appLocalStorage.workouts[date][movement] = newContent;
       this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },
-    deleteRoutine(date: string | undefined, movement: string) {
+    deleteMovement(date: string, movement: string) {
       delete this.appLocalStorage.workouts[date][movement];
+      if (Object.keys(this.appLocalStorage.workouts[date]).length === 0) {
+        delete this.appLocalStorage.workouts[date];
+      }
       this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },
     addRoutine(date: string, selectedMovement: string, workoutType: WorkoutType) {
       const exercise: Exercise = {};
+      console.log(date, selectedMovement, workoutType);
       exercise[selectedMovement] = workoutType;
 
       if (this.appLocalStorage.workouts[date]) {
         if (this.appLocalStorage.workouts[date][selectedMovement]) {
-          this.appLocalStorage.workouts[date] = {
+          this.appLocalStorage.workouts[date][selectedMovement] = {
             ...this.appLocalStorage.workouts[date][selectedMovement],
             ...exercise[selectedMovement],
           };

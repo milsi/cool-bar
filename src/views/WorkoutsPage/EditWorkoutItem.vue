@@ -3,7 +3,7 @@ import { ref, watchEffect, watch, computed } from 'vue';
 import Modal from '../../components/ModalItem.vue';
 import IconRemove from '@/assets/icons/IconRemove.vue';
 import { storeToRefs } from 'pinia';
-import type { Routine, WorkoutType } from '../../types/Routine';
+import type { Routine, WorkoutType, Row } from '../../types/Routine';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { useShowEditWorkoutStore, useSelectedDateStore } from '@/stores/showModals';
 
@@ -19,12 +19,10 @@ const { showEditWorkout } = storeToRefs(ShowEditWorkoutStore);
 const SelectedDateStore = useSelectedDateStore();
 const { selectedDate } = storeToRefs(SelectedDateStore);
 
-const selectedDateWrite = ref<string | undefined>(
-  selectedDate.value ? selectedDate.value : today.value,
-);
+const selectedDateWrite = ref<string>(selectedDate.value ? selectedDate.value : today.value);
 
 watch(selectedDate, (newValue) => {
-  selectedDateWrite.value = newValue;
+  selectedDateWrite.value = String(newValue);
 });
 
 const selectedMovement = ref<string>('Movements');
@@ -54,8 +52,7 @@ watch(selectedMovement, (newMovement) => {
 const addRow = (event: Event, type: string) => {
   event.preventDefault();
   const rows = type === 'working' ? rowsWorking : rowsWarmup;
-  const setOrder = rowsWarmup.value.length + rowsWorking.value.length + 1;
-  rows.value.push({ set: setOrder, reps: null, weight: null });
+  rows.value.push({ set: 0, reps: null, weight: null });
   adjustSetNumbers();
 };
 
@@ -85,6 +82,11 @@ const closeModal = () => {
   showEditWorkout.value = false;
 };
 
+const deleteMovement = () => {
+  AppLocalStorageStore.deleteMovement(selectedDateWrite.value, selectedMovement.value);
+  closeModal();
+};
+
 const errorSelect = ref(false);
 const errorWarmup = ref(false);
 const errorWorking = ref(false);
@@ -98,7 +100,7 @@ watch(
 
 watchEffect(() => {
   [rowsWarmup, rowsWorking].forEach((rows) => {
-    rows.value.forEach((row) => {
+    rows.value.forEach((row: Row) => {
       if (row.reps === null || row.reps === 0 || row.weight === null) {
         rows.value === rowsWarmup.value ? (errorWarmup.value = true) : (errorWorking.value = true);
       } else {
@@ -118,6 +120,7 @@ const deactivateSave = computed(() => errorSelect.value || errorWarmup.value || 
     :deactivateSave="deactivateSave"
     @saveChanges="saveChanges"
     @closeModal="closeModal"
+    @deleteMovement="deleteMovement"
     :showDelete="true"
   >
     <template #heading>Add a new workout</template>
