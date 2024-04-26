@@ -92,7 +92,6 @@ export const useAppLocalStorageStore = defineStore(STORE_NAME, {
     },
     addRoutine(date: string, selectedMovement: string, workoutType: WorkoutType) {
       const exercise: Exercise = {};
-      console.log(date, selectedMovement, workoutType);
       exercise[selectedMovement] = workoutType;
 
       if (this.appLocalStorage.workouts[date]) {

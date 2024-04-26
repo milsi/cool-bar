@@ -17,17 +17,25 @@ const ShowAddWorkoutStore = useAddWorkoutStore();
 const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
 const showAddWorkoutModal = ref(false);
 
-watch(showAddWorkout, () => {
-  showAddWorkoutModal.value = !showAddWorkoutModal.value;
-});
+watch(
+  showAddWorkout,
+  () => {
+    showAddWorkoutModal.value = !showAddWorkoutModal.value;
+  },
+  { deep: true },
+);
 
 const ShowEditWorkoutStore = useShowEditWorkoutStore();
 const { showEditWorkout } = storeToRefs(ShowEditWorkoutStore);
 const showEditWorkoutModal = ref(false);
 
-watch(showEditWorkout, (newValue) => {
-  showEditWorkoutModal.value = newValue;
-});
+watch(
+  showEditWorkout,
+  (newValue) => {
+    showEditWorkoutModal.value = newValue;
+  },
+  { deep: true },
+);
 
 watch(
   () => appLocalStorage.value.workouts,
@@ -39,7 +47,6 @@ watch(
 </script>
 
 <template>
-  <AddWorkout v-if="showAddWorkoutModal"></AddWorkout>
   <div
     v-if="workouts"
     class="grid-auto-rows: auto; grid grid-cols-1 gap-x-3 gap-y-3 md:grid-cols-2"
@@ -51,6 +58,7 @@ watch(
       :date="routine[0].toString()"
     >
     </Workout>
+    <AddWorkout v-if="showAddWorkoutModal"></AddWorkout>
     <EditWorkout v-if="showEditWorkoutModal"></EditWorkout>
   </div>
 </template>

@@ -23,7 +23,7 @@ const selectedDate = ref<string | undefined>(props.date);
 </script>
 <template>
   <div>
-    <CardItem @click="toggleShowEditWorkout">
+    <CardItem @click="toggleShowEditWorkout" aria-label="workoutItem">
       <template #heading>{{ selectedDate }}</template>
       <template #details>
         <div v-for="(workoutTypes, movement) in props.dayRoutine" :key="movement">
