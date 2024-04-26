@@ -21,7 +21,7 @@ const updateProfile = (newProfile: User) => {
   userProfileRead.value = newProfile;
 };
 
-watch(showEditUserProfile, (newValue, oldValue) => {
+watch(showEditUserProfile, (newValue) => {
   showEditUserProfileModal.value = newValue;
 });
 </script>

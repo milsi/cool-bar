@@ -51,8 +51,12 @@ const EMPTY_LOCAL_STORAGE: LocalStorage = {
 
 const getAppLocalStorage = () => {
   const appLocalStorage = localStorage.getItem(STORE_NAME);
-
   return appLocalStorage ? JSON.parse(appLocalStorage) : EMPTY_LOCAL_STORAGE;
+};
+
+const updateLocalStorage = (newLocalStorage: LocalStorage) => {
+  localStorage.setItem(STORE_NAME, JSON.stringify(newLocalStorage));
+  return newLocalStorage;
 };
 
 export const useAppLocalStorageStore = defineStore(STORE_NAME, {
@@ -69,16 +73,18 @@ export const useAppLocalStorageStore = defineStore(STORE_NAME, {
   },
   actions: {
     updateLocalStorage(newLocalStorage: LocalStorage) {
-      this.appLocalStorage = newLocalStorage;
-      localStorage.setItem(STORE_NAME, JSON.stringify(this.appLocalStorage));
+      this.appLocalStorage = updateLocalStorage(newLocalStorage);
     },
     updateUserProfile(newUserProfile: User) {
       this.appLocalStorage.userProfile = newUserProfile;
-      localStorage.setItem(STORE_NAME, JSON.stringify(this.appLocalStorage));
+      this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
+    },
+    updateRoutine(date: string | undefined, movement: string, newContent: WorkoutType) {
+      this.appLocalStorage.workouts[date][movement] = newContent;
+      this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },
     addRoutine(date: string, selectedMovement: string, workoutType: WorkoutType) {
       const exercise: Exercise = {};
-
       exercise[selectedMovement] = workoutType;
 
       if (this.appLocalStorage.workouts[date]) {
@@ -97,7 +103,7 @@ export const useAppLocalStorageStore = defineStore(STORE_NAME, {
         this.appLocalStorage.workouts[date] = exercise;
       }
 
-      localStorage.setItem(STORE_NAME, JSON.stringify(this.appLocalStorage));
+      this.appLocalStorage = updateLocalStorage(this.appLocalStorage);
     },
   },
 });

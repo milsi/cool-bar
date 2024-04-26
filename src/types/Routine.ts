@@ -1,7 +1,7 @@
 export type Workout = {
   set: number;
-  reps: number;
-  weight: number;
+  reps: number | null;
+  weight: number | null;
 };
 
 export type WorkoutType = {

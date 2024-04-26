@@ -1,47 +1,66 @@
 <script setup lang="ts">
-import { ref, watchEffect, watch } from 'vue';
+import { ref, watchEffect, watch, computed } from 'vue';
 import Modal from '../../components/ModalItem.vue';
 import IconRemove from '@/assets/icons/IconRemove.vue';
-import { useMovementsStore } from '@/stores/movementsStorage';
 import { storeToRefs } from 'pinia';
-import type { Routine, WorkoutType, Exercise, Workout } from '../../types/Routine';
+import type { Routine, WorkoutType } from '../../types/Routine';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
-import { useAddWorkoutStore } from '@/stores/showModals';
+import { useShowEditWorkoutStore, useSelectedDateStore } from '@/stores/showModals';
 
-const MovementsStore = useMovementsStore();
-const { movements } = storeToRefs(MovementsStore);
-const selectedMovement = ref<string>('Movement');
+const today = ref<string>(new Date().toISOString().split('T')[0]);
 
 const AppLocalStorageStore = useAppLocalStorageStore();
+const { appLocalStorage } = storeToRefs(AppLocalStorageStore);
+const workouts: Routine = appLocalStorage.value.workouts;
 
-const ShowAddWorkoutStore = useAddWorkoutStore();
-const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
+const ShowEditWorkoutStore = useShowEditWorkoutStore();
+const { showEditWorkout } = storeToRefs(ShowEditWorkoutStore);
 
-const date = ref<string>(new Date().toISOString().split('T')[0]);
+const SelectedDateStore = useSelectedDateStore();
+const { selectedDate } = storeToRefs(SelectedDateStore);
 
-const deactivateSave = ref<boolean>(false);
+const selectedDateWrite = ref<string | undefined>(
+  selectedDate.value ? selectedDate.value : today.value,
+);
 
-const rowsWarmup = ref<Array<Workout>>([{ set: 1, reps: null, weight: null }]);
-const rowsWorking = ref<Array<Workout>>([
-  { set: rowsWarmup.value[0].set + 1, reps: null, weight: null },
-]);
+watch(selectedDate, (newValue) => {
+  selectedDateWrite.value = newValue;
+});
+
+const selectedMovement = ref<string>('Movements');
+
+const movements = ref(Object.keys(workouts[selectedDateWrite.value]));
+const firstAvailableMovement = movements.value[0];
+
+if (selectedMovement.value === 'Movements') {
+  selectedMovement.value = firstAvailableMovement;
+}
+
+let selectedWorkout = ref<WorkoutType>({ Warmup: [], Working: [] });
+
+if (selectedDateWrite.value !== undefined && selectedMovement.value !== undefined) {
+  selectedWorkout = ref<WorkoutType>(workouts[selectedDateWrite.value][selectedMovement.value]);
+}
+
+const rowsWarmup = ref(JSON.parse(JSON.stringify(selectedWorkout.value.Warmup)));
+const rowsWorking = ref(JSON.parse(JSON.stringify(selectedWorkout.value.Working)));
+
+watch(selectedMovement, (newMovement) => {
+  selectedWorkout.value = workouts[selectedDateWrite.value][newMovement];
+  rowsWarmup.value = JSON.parse(JSON.stringify(selectedWorkout.value.Warmup));
+  rowsWorking.value = JSON.parse(JSON.stringify(selectedWorkout.value.Working));
+});
 
 const addRow = (event: Event, type: string) => {
   event.preventDefault();
-  let setOrder;
-  if (type === 'working') {
-    setOrder = rowsWarmup.value.length + rowsWorking.value.length + 1;
-    rowsWorking.value.push({ set: setOrder, reps: null, weight: null });
-  } else {
-    setOrder = rowsWarmup.value.length + 1;
-    rowsWarmup.value.push({ set: setOrder, reps: null, weight: null });
-  }
+  const rows = type === 'working' ? rowsWorking : rowsWarmup;
+  const setOrder = rowsWarmup.value.length + rowsWorking.value.length + 1;
+  rows.value.push({ set: setOrder, reps: null, weight: null });
   adjustSetNumbers();
 };
 
 const removeRow = (index: number, type: string) => {
   const rows = type === 'working' ? rowsWorking : rowsWarmup;
-
   rows.value.splice(index, 1);
   adjustSetNumbers();
 };
@@ -55,78 +74,43 @@ const adjustSetNumbers = () => {
   }
 };
 
-const routine = ref<Routine>({});
-
 const saveChanges = () => {
-  const exercise: Exercise = {};
-  const workoutType: WorkoutType = {
-    Warmup: rowsWarmup.value.map((row) => ({
-      set: row.set,
-      reps: row.reps!,
-      weight: row.weight!,
-    })),
-    Working: rowsWorking.value.map((row) => ({
-      set: row.set,
-      reps: row.reps!,
-      weight: row.weight!,
-    })),
-  };
-
-  exercise[selectedMovement.value] = workoutType;
-  routine.value[date.value] = exercise;
-
-  AppLocalStorageStore.addRoutine(date.value, selectedMovement.value, workoutType);
+  let newWorkout: WorkoutType = { Warmup: [], Working: [] };
+  newWorkout.Warmup = rowsWarmup.value;
+  newWorkout.Working = rowsWorking.value;
+  AppLocalStorageStore.updateRoutine(selectedDateWrite.value, selectedMovement.value, newWorkout);
 };
 
 const closeModal = () => {
-  showAddWorkout.value = false;
+  showEditWorkout.value = false;
 };
 
-let errorSelect = true;
-let errorWarmup = true;
-let errorWorking = true;
-
-const errorActive = () => {
-  if (errorSelect || errorWarmup || errorWorking) {
-    deactivateSave.value = true;
-  } else {
-    deactivateSave.value = false;
-  }
-};
+const errorSelect = ref(false);
+const errorWarmup = ref(false);
+const errorWorking = ref(false);
 
 watch(
   () => selectedMovement.value,
   (newValue: string) => {
-    if (newValue === 'Movement') {
-      errorSelect = true;
-    } else {
-      errorSelect = false;
-    }
-    errorActive();
+    errorSelect.value = newValue === 'Movement';
   },
 );
 
 watchEffect(() => {
-  rowsWarmup.value.forEach((row) => {
-    if (row.reps === null || row.reps === 0 || row.weight === null) {
-      errorWarmup = true;
-    } else {
-      errorWarmup = false;
-    }
-    errorActive();
+  [rowsWarmup, rowsWorking].forEach((rows) => {
+    rows.value.forEach((row) => {
+      if (row.reps === null || row.reps === 0 || row.weight === null) {
+        rows.value === rowsWarmup.value ? (errorWarmup.value = true) : (errorWorking.value = true);
+      } else {
+        rows.value === rowsWarmup.value
+          ? (errorWarmup.value = false)
+          : (errorWorking.value = false);
+      }
+    });
   });
 });
 
-watchEffect(() => {
-  rowsWorking.value.forEach((row) => {
-    if (row.reps === null || row.reps === 0 || row.weight === null) {
-      errorWorking = true;
-    } else {
-      errorWorking = false;
-    }
-    errorActive();
-  });
-});
+const deactivateSave = computed(() => errorSelect.value || errorWarmup.value || errorWorking.value);
 </script>
 
 <template>
@@ -134,15 +118,20 @@ watchEffect(() => {
     <template #heading>Add a new workout</template>
     <template #details>
       <form class="m-8 grid grid-cols-3 place-content-center gap-4">
-        <input type="date" class="input input-bordered col-span-3 w-full" v-model="date" />
+        <input
+          type="date"
+          class="input input-bordered col-span-3 w-full"
+          v-model="selectedDateWrite"
+          readonly
+        />
         <select
           class="select select-bordered col-span-3 w-full"
           v-model="selectedMovement"
           :class="{ 'select-error': selectedMovement === 'Movement' }"
         >
           <option disabled selected>Movement</option>
-          <option v-for="movement in movements" :key="movement.movement">
-            {{ movement.movement }}
+          <option v-for="movement in movements" :key="movement">
+            {{ movement }}
           </option>
         </select>
         <h3 class="col-span-3">Warmup</h3>

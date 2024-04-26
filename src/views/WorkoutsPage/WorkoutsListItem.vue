@@ -3,13 +3,16 @@ import Workout from './WorkoutItem.vue';
 import AddWorkout from './AddWorkoutItem.vue';
 import { storeToRefs } from 'pinia';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
-import { useAddWorkoutStore } from '@/stores/showModals';
+import { useAddWorkoutStore, useShowEditWorkoutStore } from '@/stores/showModals';
 import { watch, ref } from 'vue';
+import EditWorkout from './EditWorkoutItem.vue';
 
 const AppLocalStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStore);
 const workouts = appLocalStorage.value.workouts;
 
+const sortedWorkouts = ref(Object.entries(workouts).sort((a, b) => b[0].localeCompare(a[0])));
+console.log(sortedWorkouts.value);
 const ShowAddWorkoutStore = useAddWorkoutStore();
 const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
 const showAddWorkoutModal = ref(false);
@@ -17,42 +20,27 @@ const showAddWorkoutModal = ref(false);
 watch(showAddWorkout, () => {
   showAddWorkoutModal.value = !showAddWorkoutModal.value;
 });
+
+const ShowEditWorkoutStore = useShowEditWorkoutStore();
+const { showEditWorkout } = storeToRefs(ShowEditWorkoutStore);
+const showEditWorkoutModal = ref(false);
+
+watch(showEditWorkout, (newValue) => {
+  showEditWorkoutModal.value = newValue;
+});
+console.log(workouts);
 </script>
 
 <template>
   <AddWorkout v-if="showAddWorkoutModal"></AddWorkout>
-  <div class="grid grid-cols-1 gap-x-3 md:grid-cols-2">
-    <Workout v-for="(exercise, day) in workouts" :key="day">
-      <template #date>{{ day }}</template>
-      <template #movements>
-        <div v-for="(workoutTypes, movement) in exercise" :key="movement">
-          <h1>{{ movement }}</h1>
-          <div v-for="(workoutType, type) in workoutTypes" :key="type">
-            <h4>{{ type }}</h4>
-            <div class="overflow-x-auto">
-              <table class="table table-xs">
-                <!-- head -->
-                <thead>
-                  <tr>
-                    <th>Set</th>
-                    <th>Reps</th>
-                    <th>Weights</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- row -->
-                  <tr v-for="(set, index) in workoutType" :key="index">
-                    <th>{{ set.set }}</th>
-                    <td>{{ set.reps }}</td>
-                    <td>{{ set.weight }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </template>
+  <div class="grid-auto-rows: auto; grid grid-cols-1 gap-x-3 gap-y-3 md:grid-cols-2">
+    <Workout
+      v-for="routine in sortedWorkouts"
+      :key="routine[0]"
+      :dayRoutine="routine[1]"
+      :date="routine[0].toString()"
+    >
     </Workout>
+    <EditWorkout v-if="showEditWorkoutModal"></EditWorkout>
   </div>
 </template>
-@/stores/showModals

@@ -1,22 +1,4 @@
-// import the necessary modules
 import { defineStore } from 'pinia';
-
-export const useShowModalStore = defineStore({
-  id: 'showModal',
-  state: () => ({
-    showModal: false,
-  }),
-  getters: {
-    state(state) {
-      return state.showModal;
-    },
-  },
-  actions: {
-    toggleShowModal() {
-      this.showModal = !this.showModal;
-    },
-  },
-});
 
 export const useAddWorkoutStore = defineStore({
   id: 'addWorkout',
@@ -35,6 +17,23 @@ export const useAddWorkoutStore = defineStore({
   },
 });
 
+export const useShowEditWorkoutStore = defineStore({
+  id: 'editWorkout',
+  state: () => ({
+    showEditWorkout: false,
+  }),
+  getters: {
+    state(state) {
+      return state.showEditWorkout;
+    },
+  },
+  actions: {
+    toggleShowEditWorkout() {
+      this.showEditWorkout = !this.showEditWorkout;
+    },
+  },
+});
+
 export const useShowEditUserProfileStore = defineStore({
   id: 'editUserProfile',
   state: () => ({
@@ -48,6 +47,18 @@ export const useShowEditUserProfileStore = defineStore({
   actions: {
     toggleShowEditUserProfile() {
       this.showEditUserProfile = !this.showEditUserProfile;
+    },
+  },
+});
+
+export const useSelectedDateStore = defineStore({
+  id: 'selectedDate',
+  state: () => ({
+    selectedDate: <string | undefined>'',
+  }),
+  actions: {
+    setDate(newDate: string | undefined) {
+      this.selectedDate = newDate;
     },
   },
 });
