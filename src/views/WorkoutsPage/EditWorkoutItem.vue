@@ -36,8 +36,8 @@ if (selectedDateWrite.value !== undefined && selectedMovement.value !== undefine
   selectedWorkout = ref<WorkoutType>(workouts[selectedDateWrite.value][selectedMovement.value]);
 }
 
-const rowsWarmup = ref(JSON.parse(JSON.stringify(selectedWorkout.value.Warmup)));
-const rowsWorking = ref(JSON.parse(JSON.stringify(selectedWorkout.value.Working)));
+const setsWarmup = ref(JSON.parse(JSON.stringify(selectedWorkout.value.Warmup)));
+const setsWorking = ref(JSON.parse(JSON.stringify(selectedWorkout.value.Working)));
 </script>
 
 <template>
@@ -47,7 +47,7 @@ const rowsWorking = ref(JSON.parse(JSON.stringify(selectedWorkout.value.Working)
     :isReadOnly="true"
     :movements="movements"
     :selectedMovement="selectedMovement"
-    :warmupRows="rowsWarmup"
-    :workingRows="rowsWorking"
+    :warmupSets="setsWarmup"
+    :workingSets="setsWorking"
   ></ModifyWorkoutModalDetails>
 </template>

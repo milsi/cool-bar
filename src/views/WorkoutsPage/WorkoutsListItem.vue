@@ -12,7 +12,6 @@ import NoWorkouts from './NoWorkoutsItem.vue';
 const AppLocalStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStore);
 const workouts: Routine = appLocalStorage.value.workouts;
-console.log();
 const sortedWorkouts = ref<[string, Exercise][]>(
   Object.entries(workouts).sort((a, b) => b[0].localeCompare(a[0])),
 );
@@ -28,9 +27,7 @@ const toggleShowAddNew = () => {
 watch(
   showAddWorkout,
   () => {
-    console.log('showAddWorkoutModal.value', showAddWorkoutModal.value);
     showAddWorkoutModal.value = !showAddWorkoutModal.value;
-    console.log('showAddWorkoutModal.value', showAddWorkoutModal.value);
   },
   { deep: true },
 );

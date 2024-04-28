@@ -1,12 +1,12 @@
-export type Row = {
+export type Set = {
   set: number;
   reps: number | null;
   weight: number | null;
 };
 
 export type WorkoutType = {
-  Warmup: Row[];
-  Working: Row[];
+  Warmup: Set[];
+  Working: Set[];
 };
 
 export type Exercise = {

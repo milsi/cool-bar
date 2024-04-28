@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, watchEffect } from 'vue';
-import type { Exercise, Routine, Row, WorkoutType } from '@/types/Routine';
+import type { Exercise, Routine, Set, WorkoutType } from '@/types/Routine';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { useShowEditWorkoutStore, useAddWorkoutStore } from '@/stores/showModals';
 
@@ -14,8 +14,8 @@ interface Props {
   isReadOnly: boolean;
   movements: String[];
   selectedMovement: String;
-  warmupRows: Row[];
-  workingRows: Row[];
+  warmupSets: Set[];
+  workingSets: Set[];
 }
 
 const props = defineProps<Props>();
@@ -24,8 +24,8 @@ const date = ref<String>(
   props.dateModel ? props.dateModel : new Date().toISOString().split('T')[0],
 );
 
-const rowsWarmupWrite = ref<Array<Row>>(props.warmupRows);
-const rowsWorkingWrite = ref<Array<Row>>(props.workingRows);
+const setsWarmupWrite = ref<Array<Set>>(props.warmupSets);
+const setsWorkingWrite = ref<Array<Set>>(props.workingSets);
 
 const selectedMovement = ref<String>(props.selectedMovement ? props.selectedMovement : 'Movement');
 
@@ -39,40 +39,40 @@ const { showEditWorkout } = storeToRefs(ShowEditWorkoutStore);
 const ShowAddWorkoutStore = useAddWorkoutStore();
 const { showAddWorkout } = storeToRefs(ShowAddWorkoutStore);
 
-const addRow = (event: Event, type: string) => {
+const addSet = (event: Event, type: string) => {
   event.preventDefault();
-  const rows = type === 'working' ? rowsWorkingWrite : rowsWarmupWrite;
-  rows.value.push({ set: 0, reps: null, weight: null });
+  const sets = type === 'working' ? setsWorkingWrite : setsWarmupWrite;
+  sets.value.push({ set: 0, reps: null, weight: null });
   adjustSetNumbers();
 };
 
-const removeRow = (index: number, type: string) => {
-  const rows = type === 'working' ? rowsWorkingWrite : rowsWarmupWrite;
-  rows.value.splice(index, 1);
+const removeSet = (index: number, type: string) => {
+  const sets = type === 'working' ? setsWorkingWrite : setsWarmupWrite;
+  sets.value.splice(index, 1);
   adjustSetNumbers();
 };
 
 const adjustSetNumbers = () => {
-  for (let i = 0; i < rowsWarmupWrite.value.length; i++) {
-    rowsWarmupWrite.value[i].set = i + 1;
+  for (let i = 0; i < setsWarmupWrite.value.length; i++) {
+    setsWarmupWrite.value[i].set = i + 1;
   }
-  for (let i = 0; i < rowsWorkingWrite.value.length; i++) {
-    rowsWorkingWrite.value[i].set = rowsWarmupWrite.value.length + i + 1;
+  for (let i = 0; i < setsWorkingWrite.value.length; i++) {
+    setsWorkingWrite.value[i].set = setsWarmupWrite.value.length + i + 1;
   }
 };
 
 const saveChanges = () => {
   const routine = ref<Routine>({});
   const workoutType: WorkoutType = {
-    Warmup: rowsWarmupWrite.value.map((row) => ({
-      set: row.set,
-      reps: row.reps!,
-      weight: row.weight!,
+    Warmup: setsWarmupWrite.value.map((set) => ({
+      set: set.set,
+      reps: set.reps!,
+      weight: set.weight!,
     })),
-    Working: rowsWorkingWrite.value.map((row) => ({
-      set: row.set,
-      reps: row.reps!,
-      weight: row.weight!,
+    Working: setsWorkingWrite.value.map((set) => ({
+      set: set.set,
+      reps: set.reps!,
+      weight: set.weight!,
     })),
   };
 
@@ -112,8 +112,8 @@ let selectedWorkout = ref<WorkoutType>({ Warmup: [], Working: [] });
 watch(selectedMovement, (newMovement) => {
   if (props.action === 'edit') {
     selectedWorkout.value = workouts[date.value.toString()][newMovement.toString()];
-    rowsWarmupWrite.value = JSON.parse(JSON.stringify(selectedWorkout.value.Warmup));
-    rowsWorkingWrite.value = JSON.parse(JSON.stringify(selectedWorkout.value.Working));
+    setsWarmupWrite.value = JSON.parse(JSON.stringify(selectedWorkout.value.Warmup));
+    setsWorkingWrite.value = JSON.parse(JSON.stringify(selectedWorkout.value.Working));
   }
 });
 
@@ -128,14 +128,14 @@ watch(
   },
 );
 watchEffect(() => {
-  [rowsWarmupWrite, rowsWorkingWrite].forEach((rows) => {
-    rows.value.forEach((row: Row) => {
-      if (row.reps === null || row.reps === 0 || row.weight === null) {
-        rows.value === rowsWarmupWrite.value
+  [setsWarmupWrite, setsWorkingWrite].forEach((sets) => {
+    sets.value.forEach((set: Set) => {
+      if (set.reps === null || set.reps === 0 || set.weight === null || !set.reps || !set.weight) {
+        sets.value === setsWarmupWrite.value
           ? (errorWarmup.value = true)
           : (errorWorking.value = true);
       } else {
-        rows.value === rowsWarmupWrite.value
+        sets.value === setsWarmupWrite.value
           ? (errorWarmup.value = false)
           : (errorWorking.value = false);
       }
@@ -153,7 +153,7 @@ const deactivateSave = computed(() => errorSelect.value || errorWarmup.value || 
     @deleteMovement="deleteMovement"
     :showDelete="action === 'edit'"
   >
-    <template #heading>{{ action }}</template>
+    <template #heading>{{ action === 'edit' ? 'Modify the' : 'Create a' }} workout</template>
     <template #details>
       <form class="m-8 grid grid-cols-3 place-content-center gap-4">
         <input
@@ -176,13 +176,15 @@ const deactivateSave = computed(() => errorSelect.value || errorWarmup.value || 
         </select>
         <h3 class="col-span-3">Warmup</h3>
         <div
-          v-for="(row, index) in rowsWarmupWrite"
+          v-for="(set, index) in setsWarmupWrite"
           :key="index"
           class="col-span-3 grid grid-cols-7 place-content-center gap-1"
         >
           <input
             type="number"
-            v-model="row.set"
+            step="1"
+            pattern="[0-9]*"
+            v-model="set.set"
             placeholder="Set"
             class="input input-bordered col-span-2 w-full"
             readonly
@@ -190,40 +192,45 @@ const deactivateSave = computed(() => errorSelect.value || errorWarmup.value || 
           <input
             type="number"
             min="1"
-            v-model="row.reps"
+            step="1"
+            pattern="[0-9]*"
+            v-model="set.reps"
             placeholder="Reps"
             class="input input-bordered col-span-2 w-full"
-            :class="{ 'input-error': row.reps === null || row.reps === 0 }"
+            :class="{ 'input-error': set.reps === null || set.reps === 0 || !set.reps }"
           />
           <input
             type="number"
             min="0"
-            v-model="row.weight"
+            pattern="[0-9]*"
+            v-model="set.weight"
             placeholder="Weight"
             class="input input-bordered col-span-2 w-full max-w-xs"
-            :class="{ 'input-error': row.weight === null }"
+            :class="{ 'input-error': set.weight === null || !set.weight }"
           />
           <button
-            v-if="rowsWarmupWrite.length > 1"
-            @click.prevent="removeRow(index, 'warmup')"
+            v-if="setsWarmupWrite.length > 1"
+            @click.prevent="removeSet(index, 'warmup')"
             class="btn btn-circle btn-outline btn-error col-span-1"
           >
             <IconRemove />
           </button>
         </div>
-        <button @click="(event) => addRow(event, 'warmup')" class="btn btn-primary col-span-3">
+        <button @click="(event) => addSet(event, 'warmup')" class="btn btn-primary col-span-3">
           Add warmup set
         </button>
         <h3 class="col-span-3">Working</h3>
         <div
-          v-for="(row, index) in rowsWorkingWrite"
+          v-for="(set, index) in setsWorkingWrite"
           :key="index"
           class="col-span-3 grid grid-cols-7 place-content-center gap-1"
         >
           <input
             type="number"
             min="1"
-            v-model="row.set"
+            step="1"
+            pattern="[0-9]*"
+            v-model="set.set"
             placeholder="Set"
             class="input input-bordered col-span-2 w-full max-w-xs"
             readonly
@@ -231,28 +238,30 @@ const deactivateSave = computed(() => errorSelect.value || errorWarmup.value || 
           <input
             type="number"
             min="1"
-            v-model="row.reps"
+            pattern="[0-9]*"
+            v-model="set.reps"
             placeholder="Reps"
             class="input input-bordered col-span-2 w-full max-w-xs"
-            :class="{ 'input-error': row.reps === null || row.reps === 0 }"
+            :class="{ 'input-error': set.reps === null || set.reps === 0 || !set.reps }"
           />
           <input
             type="number"
             min="0"
-            v-model="row.weight"
+            pattern="[0-9]*"
+            v-model="set.weight"
             placeholder="Weight"
             class="input input-bordered col-span-2 w-full max-w-xs"
-            :class="{ 'input-error': row.weight === null }"
+            :class="{ 'input-error': set.weight === null || !set.weight }"
           />
           <button
-            v-if="rowsWorkingWrite.length > 1"
-            @click.prevent="removeRow(index, 'working')"
+            v-if="setsWorkingWrite.length > 1"
+            @click.prevent="removeSet(index, 'working')"
             class="btn btn-circle btn-outline btn-error col-span-1"
           >
             <IconRemove />
           </button>
         </div>
-        <button @click="(event) => addRow(event, 'working')" class="btn btn-primary col-span-3">
+        <button @click="(event) => addSet(event, 'working')" class="btn btn-primary col-span-3">
           Add working set
         </button>
       </form>

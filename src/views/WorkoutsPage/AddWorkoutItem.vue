@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import ModifyWorkoutModalDetails from './ModifyWorkoutModalDetails.vue';
 import { useMovementsStore } from '@/stores/movementsStorage';
 import { storeToRefs } from 'pinia';
-import type { Row } from '@/types/Routine';
+import type { Set } from '@/types/Routine';
 
 const MovementsStore = useMovementsStore();
 const { movements } = storeToRefs(MovementsStore);
@@ -11,9 +11,9 @@ const movementsArray = movements.value.map((move) => move.movement);
 
 const date = ref<string>(new Date().toISOString().split('T')[0]);
 
-const rowsWarmup = ref<Array<Row>>([{ set: 1, reps: null, weight: null }]);
-const rowsWorking = ref<Array<Row>>([
-  { set: rowsWarmup.value[0].set + 1, reps: null, weight: null },
+const setsWarmup = ref<Array<Set>>([{ set: 1, reps: null, weight: null }]);
+const setsWorking = ref<Array<Set>>([
+  { set: setsWarmup.value[0].set + 1, reps: null, weight: null },
 ]);
 </script>
 
@@ -24,7 +24,7 @@ const rowsWorking = ref<Array<Row>>([
     :isReadOnly="false"
     :movements="movementsArray"
     :selectedMovement="''"
-    :warmupRows="rowsWarmup"
-    :workingRows="rowsWorking"
+    :warmupSets="setsWarmup"
+    :workingSets="setsWorking"
   ></ModifyWorkoutModalDetails>
 </template>
