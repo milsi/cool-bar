@@ -56,7 +56,7 @@ test('edit existing workout', async ({ page }) => {
   await expect(page.locator('#app')).toContainText(nextWeek);
   await expect(page.locator('#app')).toContainText('Barbell Squat');
   await expect(page.getByText(nextWeek)).toBeVisible();
-  await page.getByText(nextWeek).click();
+  await page.getByText(nextWeek).dblclick();
   await page.getByRole('button', { name: 'Add warmup set' }).click();
   await expect(page.getByPlaceholder('Set').nth(1)).toHaveValue('2');
   await page.getByPlaceholder('Reps').nth(1).click();
