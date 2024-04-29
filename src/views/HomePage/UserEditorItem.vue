@@ -46,14 +46,14 @@ const deactivateSave = ref<boolean>(false);
     :deactivateSave="deactivateSave"
     :showDelete="false"
   >
-    <template #heading>Edit user profile</template>
+    <template #heading>edit your profile.</template>
     <template #details>
       <form class="m-8 grid grid-cols-1 place-content-center gap-4">
-        <label for="name" class="font-medium text-gray-900">Name</label>
+        <label for="name" class="font-medium text-gray-900">name</label>
         <input
           type="text"
           v-model="userProfileWrite.name"
-          placeholder="Name"
+          placeholder="name"
           :class="{
             'input-error': nameCharCount < 1 || nameCharCount > 20,
           }"
@@ -68,7 +68,7 @@ const deactivateSave = ref<boolean>(false);
           class="text-xs"
           >{{ nameCharCount }} / 20</span
         >
-        <label for="age" class="font-medium text-gray-900">Age</label>
+        <label for="age" class="font-medium text-gray-900">age</label>
         <input
           type="number"
           min="16"
@@ -80,21 +80,21 @@ const deactivateSave = ref<boolean>(false);
           class="input input-bordered w-full"
           id="age"
         />
-        <label for="sex" class="font-medium text-gray-900">Sex</label>
+        <label for="sex" class="font-medium text-gray-900">sex</label>
         <select v-model="userProfileWrite.sex" class="select select-bordered w-full" id="sex">
-          <option disabled selected>Sex</option>
+          <option disabled selected>sex</option>
           <option>F</option>
           <option>M</option>
           <option>NB</option>
         </select>
-        <label for="weight" class="font-medium text-gray-900">Body weight, kg</label>
+        <label for="weight" class="font-medium text-gray-900">body weight, kg</label>
         <input
           type="number"
           min="40"
           max="200"
           pattern="[0-9]*"
           v-model="userProfileWrite.bodyWeight"
-          placeholder="Body weight"
+          placeholder="body weight, kg"
           class="input input-bordered w-full"
           id="weight"
         />

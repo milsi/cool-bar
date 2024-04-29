@@ -15,12 +15,7 @@ const addWorkoutStore = useAddWorkoutStore();
     <div class="navbar bg-base-100">
       <div class="navbar-start">
         <div class="dropdown">
-          <div
-            aria-label="menu"
-            tabindex="0"
-            role="button"
-            class="btn btn-circle btn-ghost hover:bg-primary"
-          >
+          <div aria-label="menu" tabindex="0" role="button" class="btn btn-circle btn-primary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -40,13 +35,18 @@ const addWorkoutStore = useAddWorkoutStore();
             tabindex="0"
             class="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
           >
-            <li><RouterLink to="/">Home</RouterLink></li>
-            <li><RouterLink to="/workouts">Workouts</RouterLink></li>
+            <li><RouterLink to="/">home.</RouterLink></li>
+            <li><RouterLink to="/workouts">workouts.</RouterLink></li>
           </ul>
         </div>
       </div>
       <div class="navbar-center">
-        <a class="btn btn-ghost text-xl hover:bg-primary" href="/" label="appName">cool bar.</a>
+        <a
+          class="btn btn-ghost text-xl hover:bg-primary hover:text-primary-content"
+          href="/"
+          label="appName"
+          >cool bar.</a
+        >
       </div>
       <div class="navbar-end">
         <button
@@ -68,4 +68,3 @@ main {
   margin: 0 auto;
 }
 </style>
-@/stores/showModals

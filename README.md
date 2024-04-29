@@ -1,64 +1,618 @@
-# cool-bar
+# cool bar.
 
-This template should help get you started developing with Vue 3 in Vite.
+A weight-lifting tracker built on vite+vue.
 
-## Recommended IDE Setup
+Since I myself lift weights, wanted an application that would help to track what I need to do in the gym, be able to modify it during the workout and later see my progress.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Features
 
-## Type Support for `.vue` Imports in TS
+- Create user profile
+- Add new workouts per day and movement
+- Modify workout or delete it
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Future
 
-## Customize configuration
+- Stats
+- Automatic workout suggestions
+- Gym weights profile
+- Workout csv import/export
+- Body measurement tracking
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Local storage
 
-## Project Setup
-
-```sh
-npm install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
-
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+{"userProfile":{"name":"Jane Doe","age":82,"sex":"F","bodyWeight":74},"workouts":{
+  "2024-04-29":{
+    "Barbell Squat": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Overhead Press": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Deadlift": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    }
+  },"2024-04-28":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-27":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Overhead Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-26":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-25":{
+    "Barbell Squat": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Overhead Press": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Deadlift": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    }
+  },"2024-04-24":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-23":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Overhead Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-22":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-21":{
+    "Barbell Squat": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Overhead Press": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Deadlift": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    }
+  },"2024-04-20":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-19":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Overhead Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-18":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-17":{
+    "Barbell Squat": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Overhead Press": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    },
+    "Deadlift": {
+      "Warmup": [
+        { "set": 1, "reps": 5, "weight": 20 },
+        { "set": 2, "reps": 5, "weight": 20 },
+        { "set": 3, "reps": 5, "weight": 20 }
+      ],
+      "Working": [
+        { "set": 4, "reps": 5, "weight": 30 },
+        { "set": 5, "reps": 5, "weight": 30 },
+        { "set": 6, "reps": 5, "weight": 30 }
+      ]
+    }
+  },"2024-04-16":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-15":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Overhead Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+},"2024-04-14":{
+  "Barbell Squat": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Bench Press": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  },
+  "Deadlift": {
+    "Warmup": [
+      { "set": 1, "reps": 5, "weight": 20 },
+      { "set": 2, "reps": 5, "weight": 20 },
+      { "set": 3, "reps": 5, "weight": 20 }
+    ],
+    "Working": [
+      { "set": 4, "reps": 5, "weight": 30 },
+      { "set": 5, "reps": 5, "weight": 30 },
+      { "set": 6, "reps": 5, "weight": 30 }
+    ]
+  }
+}}}
 ```

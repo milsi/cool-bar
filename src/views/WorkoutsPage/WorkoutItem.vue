@@ -23,14 +23,14 @@ const selectedDate = ref<string | undefined>(props.date);
 </script>
 <template>
   <div>
-    <CardItem @click="toggleShowEditWorkout" aria-label="workoutItem">
+    <CardItem @dblclick="toggleShowEditWorkout" aria-label="workoutItem" class="hover:bg-gray-300">
       <template #heading>{{ selectedDate }}</template>
-      <template #instructions>Tap to edit per movement</template>
+      <template #instructions>double-tap to edit per movement</template>
       <template #details>
         <div v-for="(workoutTypes, movement) in props.dayRoutine" :key="movement">
-          <h2 class="text-lg">{{ movement }}</h2>
+          <h2 class="mt-2 text-lg">{{ movement }}</h2>
           <div v-for="(workoutType, type) in workoutTypes" :key="type">
-            <h3 class="indent-4 text-sm">{{ type }}</h3>
+            <h3 class="mt-1.5 indent-4 text-sm">{{ type }}</h3>
             <div class="overflow-x-auto">
               <table class="table table-xs">
                 <!-- head -->
@@ -38,7 +38,7 @@ const selectedDate = ref<string | undefined>(props.date);
                   <tr>
                     <th>Set</th>
                     <th>Reps</th>
-                    <th>Weights</th>
+                    <th>Weights, kg</th>
                   </tr>
                 </thead>
                 <tbody>
