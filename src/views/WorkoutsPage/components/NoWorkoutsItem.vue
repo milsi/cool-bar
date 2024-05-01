@@ -29,6 +29,7 @@ watch(
         type="button"
         class="btn btn-primary mt-6"
         @click="ShowAddWorkoutStore.toggleShowAddWorkout"
+        aria-label="addWorkout"
       >
         Add a new workout
       </button>

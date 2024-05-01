@@ -95,6 +95,7 @@ const changePage = (page: number) => {
       class="btn btn-outline join-item hover:bg-secondary"
       :disabled="state.currentPage === 1"
       @click="changePage(state.currentPage - 1)"
+      aria-label="addWorkout"
     >
       Previous
     </button>
