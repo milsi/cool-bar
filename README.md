@@ -14,7 +14,7 @@ Since I myself lift weights, wanted an application that would help to track what
 - Playwright
 - Vitest
 
-## How to start a project locally
+## How to start the project locally
 
 ```
 git clone https://github.com/milsi/cool-bar.git
