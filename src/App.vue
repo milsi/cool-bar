@@ -41,11 +41,11 @@ const addWorkoutStore = useAddWorkoutStore();
         </div>
       </div>
       <div class="navbar-center">
-        <a
+        <RouterLink
           class="btn btn-ghost text-xl hover:bg-primary hover:text-primary-content"
-          href="/"
+          to="/"
           label="appName"
-          >cool bar.</a
+          >cool bar.</RouterLink
         >
       </div>
       <div class="navbar-end">
