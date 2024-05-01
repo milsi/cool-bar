@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
-  deactivateSave: Boolean,
+  isSaveDeactivated: Boolean,
   showDelete: Boolean,
 });
 
@@ -36,9 +36,9 @@ const deleteMovement = () => {
             Delete movement
           </button>
           <button
-            :disabled="deactivateSave"
+            :disabled="isSaveDeactivated"
             class="btn btn-secondary"
-            :class="{ 'btn-disabled': deactivateSave }"
+            :class="{ 'btn-disabled': isSaveDeactivated }"
             @click.prevent="saveChanges"
           >
             Save

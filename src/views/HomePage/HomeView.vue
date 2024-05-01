@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import UserInfo from './UserInfoItem.vue';
-import Instructions from './InstructionsItem.vue';
-import AppFuture from './AppFutureItem.vue';
+import UserInfo from '@/views/HomePage/components/UserInfoItem.vue';
+import Instructions from '@/views/HomePage/components/InstructionsItem.vue';
+import AppFuture from '@/views/HomePage/components/AppFutureItem.vue';
 </script>
 
 <template>

@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia';
 import Modal from '@/components/ModalItem.vue';
 import { useAppLocalStorageStore } from '@/stores/localStorage';
 import { useShowEditUserProfileStore } from '@/stores/showModals';
+import type { User } from '@/types/User';
 
 const AppLocalStorageStore = useAppLocalStorageStore();
 const { appLocalStorage } = storeToRefs(AppLocalStorageStore);
@@ -12,9 +13,9 @@ const userProfile = appLocalStorage.value.userProfile;
 const ShowEditUserProfileStore = useShowEditUserProfileStore();
 const { showEditUserProfile } = storeToRefs(ShowEditUserProfileStore);
 
-const emit = defineEmits(['profile-updated']);
+const emit = defineEmits<{ 'profile-updated': [value: User] }>(); // add types
 
-const userProfileWrite = ref(JSON.parse(JSON.stringify(userProfile)));
+const userProfileWrite = ref<User>(JSON.parse(JSON.stringify(userProfile)));
 
 const saveChanges = () => {
   appLocalStorage.value.userProfile = userProfileWrite.value;
@@ -26,24 +27,20 @@ const closeModal = () => {
   showEditUserProfile.value = false;
 };
 
-const nameCharCount = ref(userProfileWrite.value.name.length);
+const nameCharCount = ref(userProfileWrite.value.name.length); // add type number
 watch(userProfileWrite.value, (newVal) => {
   nameCharCount.value = newVal.name.length;
-  if (nameCharCount.value < 1 || nameCharCount.value > 20) {
-    deactivateSave.value = true;
-  } else {
-    deactivateSave.value = false;
-  }
+  isSaveDeactivated.value = nameCharCount.value < 1 || nameCharCount.value > 20;
 });
 
-const deactivateSave = ref<boolean>(false);
+const isSaveDeactivated = ref<boolean>(false); // isSaveDeactivated
 </script>
 
 <template>
   <Modal
     @saveChanges="saveChanges"
     @closeModal="closeModal"
-    :deactivateSave="deactivateSave"
+    :isSaveDeactivated="isSaveDeactivated"
     :showDelete="false"
   >
     <template #heading>edit your profile.</template>

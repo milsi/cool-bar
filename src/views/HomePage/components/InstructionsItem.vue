@@ -9,7 +9,7 @@ import CardItem from '@/components/CardItem.vue';
       <div class="overflow-x-auto">
         <ul class="steps steps-vertical">
           <li data-content="●" class="step step-secondary">navigate to workouts.</li>
-          <li data-content="●" class="step step-secondary">click on plus</li>
+          <li data-content="●" class="step step-secondary">click on add workout</li>
           <li data-content="●" class="step step-secondary">select date and movement</li>
           <li data-content="●" class="step step-secondary">fill reps and weights</li>
           <li data-content="●" class="step step-secondary">save</li>

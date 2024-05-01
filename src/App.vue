@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRoute } from 'vue-router';
-import { computed } from 'vue';
-import IconAdd from '@/assets/icons/IconAdd.vue';
-import { useAddWorkoutStore } from '@/stores/showModals';
-
-const route = useRoute();
-const isWorkoutPage = computed(() => route.path === '/workouts');
-
-const addWorkoutStore = useAddWorkoutStore();
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -48,16 +40,7 @@ const addWorkoutStore = useAddWorkoutStore();
           >cool bar.</RouterLink
         >
       </div>
-      <div class="navbar-end">
-        <button
-          @click="addWorkoutStore.toggleShowAddWorkout"
-          class="btn btn-circle btn-primary"
-          v-if="isWorkoutPage"
-          aria-label="addWorkout"
-        >
-          <IconAdd />
-        </button>
-      </div>
+      <div class="navbar-end"></div>
     </div>
   </header>
   <RouterView />
